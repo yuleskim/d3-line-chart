@@ -1,3 +1,5 @@
+"use strict";
+
 var margin = {top: 20, right: 20, bottom: 30, left: 50},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
@@ -20,7 +22,7 @@ var yAxis = d3.svg.axis()
 
 var line = d3.svg.line()
     .x(function(d) { return x(d.date); })
-    .y(function(d) { return y(d.close); });
+    .y(function(d) { return y(d.unemployment); });
 
 var svg = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -31,11 +33,11 @@ var svg = d3.select("body").append("svg")
 d3.json("js/unemployment.json", function(error, data) {
   data.forEach(function(d) {
     d.date = parseDate(d.date);
-    d.close = +d.close;
+    d.unemployment = +d.unemployment;
   });
 
   x.domain(d3.extent(data, function(d) { return d.date; }));
-  y.domain(d3.extent(data, function(d) { return d.close; }));
+  y.domain(d3.extent(data, function(d) { return d.unemployment; }));
 
   svg.append("g")
       .attr("class", "x axis")
